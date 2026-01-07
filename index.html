@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paula & Yeferson - Nuestra Boda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nude-bg: #fdfaf6;
+            --nude-dark: #f4eee5;
+            --gold: #c5a059;
+            --text-main: #4a4a4a;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--nude-bg);
+            color: var(--text-main);
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        /* Animaciones */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Estilo del Sobre */
+        #envelope-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--nude-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #f1e9db;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.5s;
+        }
+        .envelope:hover { transform: scale(1.05); }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #e5dbca;
+            z-index: 2;
+            transition: transform 0.5s;
+            transform-origin: top;
+        }
+        .envelope.open::before { transform: rotateX(180deg); }
+        .envelope-text {
+            position: absolute;
+            top: 60%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            color: var(--gold);
+            z-index: 1;
+        }
+        .wax-seal {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            background: #a32a2a;
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            color: #f1e9db; font-size: 1.2rem;
+        }
+
+        /* Hero Image */
+        .hero-bg {
+            background: linear-gradient(rgba(253, 250, 246, 0.4), rgba(253, 250, 246, 0.8)), 
+                        url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+        }
+
+        .btn-luxury {
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+        }
+        .btn-luxury:hover { background-color: var(--gold); color: white; }
+
+        .divider { height: 1px; width: 60px; background-color: var(--gold); margin: 20px auto; }
+
+        .icon-gold { color: var(--gold); }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <!-- Animación de Sobre -->
+    <div id="envelope-wrapper">
+        <div class="envelope" onclick="openEnvelope(this)">
+            <div class="wax-seal font-serif">P&Y</div>
+            <div class="envelope-text">Toca para abrir</div>
+        </div>
+    </div>
+
+    <!-- Contenido de la Invitación -->
+    <main id="main-content" class="hidden">
+        <!-- Portada -->
+        <section class="h-screen flex flex-col items-center justify-center text-center px-6 hero-bg">
+            <div class="reveal active">
+                <p class="uppercase tracking-[0.5em] text-[10px] mb-6 text-gray-500 font-light">Nuestra Boda</p>
+                <h1 class="text-5xl md:text-7xl font-serif text-[#b08d48] mb-4">Paula & Yeferson</h1>
+                <div class="divider"></div>
+                <p class="text-lg font-light tracking-widest mt-4 uppercase">Bogotá, Colombia</p>
+                <p class="text-sm tracking-[0.3em] mt-2 italic font-serif">07 de Noviembre, 2026</p>
+            </div>
+        </section>
+
+        <!-- Mensaje -->
+        <section class="py-24 px-8 bg-white text-center">
+            <div class="max-w-xl mx-auto reveal">
+                <h2 class="font-serif italic text-3xl mb-8 text-[var(--gold)]">"Dos almas, un destino."</h2>
+                <p class="font-light leading-loose text-sm text-gray-500">
+                    Nuestra historia nos ha traído hasta aquí, y no podríamos imaginar este día sin las personas que han sido parte de nuestro camino.
+                </p>
+            </div>
+        </section>
+
+        <!-- Conteo con Segundos -->
+        <section class="py-20 bg-[var(--nude-dark)] text-center">
+            <div class="reveal">
+                <h3 class="font-serif text-2xl mb-12 italic">Estamos a...</h3>
+                <div id="countdown" class="flex justify-center gap-6 md:gap-12">
+                    <div class="flex flex-col"><span id="days" class="text-4xl font-serif text-[var(--gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Días</span></div>
+                    <div class="flex flex-col"><span id="hours" class="text-4xl font-serif text-[var(--gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Hrs</span></div>
+                    <div class="flex flex-col"><span id="minutes" class="text-4xl font-serif text-[var(--gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Min</span></div>
+                    <div class="flex flex-col"><span id="seconds" class="text-4xl font-serif text-[var(--gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2 text-gray-400">Seg</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ubicaciones -->
+        <section class="py-24 px-8 bg-[var(--nude-bg)]">
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 text-center">
+                <div class="reveal">
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-[var(--gold)] mb-4 block">La Ceremonia</span>
+                    <h4 class="font-serif text-2xl mb-4 italic">Parroquia Nuestra Señora de los Ángeles</h4>
+                    <p class="text-[11px] font-semibold tracking-widest mb-1">LA PORCIÚNCULA</p>
+                    <p class="text-[10px] text-gray-400 mb-6 italic">Cra. 11 # 72 - 82, Bogotá</p>
+                    <p class="text-xl font-serif mb-8">4:30 PM</p>
+                    <a href="https://maps.app.goo.gl/3HhY2wzD5bU8X9xR7" target="_blank" class="btn-luxury px-8 py-3 inline-block">Ver Mapa</a>
+                </div>
+                <div class="reveal">
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-[var(--gold)] mb-4 block">La Celebración</span>
+                    <h4 class="font-serif text-2xl mb-4 italic">Hotel W Bogotá</h4>
+                    <p class="text-[11px] font-semibold tracking-widest mb-1">RECEPCIÓN DE GALA</p>
+                    <p class="text-[10px] text-gray-400 mb-6 italic">Avenida Carrera 9 # 115 - 30</p>
+                    <p class="text-xl font-serif mb-8">7:00 PM</p>
+                    <a href="https://maps.app.goo.gl/BAtFmBqQ7gD8gVpS9" target="_blank" class="btn-luxury px-8 py-3 inline-block">Ver Mapa</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Detalles para Invitados (Versión TikTok Minimalista) -->
+        <section class="py-24 px-8 bg-white border-y border-gray-100">
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <h3 class="font-serif text-3xl mb-16 italic text-[var(--gold)]">Información Importante</h3>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <!-- Dress Code -->
+                    <div class="flex flex-col items-center">
+                        <div class="mb-4">
+                            <svg class="w-8 h-8 icon-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M21 8l-2-2H5L3 8m18 0l-2 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V10l-2-2m18 0H3"></path>
+                            </svg>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] mb-4 text-gray-400">Código de Vestimenta</p>
+                        <p class="font-serif text-2xl mb-2 italic">Black Tie</p>
+                        <p class="text-[11px] font-light text-gray-500 leading-relaxed max-w-[200px]">
+                            Damas: Vestido largo de gala.<br>
+                            Caballeros: Esmoquin o traje oscuro formal.
+                        </p>
+                    </div>
+                    <!-- Regalo / Lluvia de Sobres -->
+                    <div class="flex flex-col items-center">
+                        <div class="mb-4">
+                            <svg class="w-8 h-8 icon-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.8" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] mb-4 text-gray-400">Presente</p>
+                        <p class="font-serif text-2xl mb-2 italic">Lluvia de Sobres</p>
+                        <p class="text-[11px] font-light text-gray-500 leading-relaxed max-w-[200px]">
+                            Tu presencia es nuestro mejor regalo, pero si deseas tener un detalle con nosotros, contaremos con lluvia de sobres.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confirmación -->
+        <section class="py-32 px-8 bg-[var(--nude-bg)] text-center">
+            <div class="reveal">
+                <h3 class="font-serif text-4xl mb-6 text-[var(--gold)]">¿Contamos contigo?</h3>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-12">Favor confirmar antes del 20 de Octubre</p>
+                <a href="https://wa.me/573000000000?text=Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20Sierra-Pardo." target="_blank" class="bg-[var(--gold)] text-white px-12 py-5 text-[10px] tracking-[0.4em] uppercase font-bold hover:bg-[#b08d48] transition-all duration-500 shadow-xl">
+                    Confirmar Asistencia
+                </a>
+            </div>
+        </section>
+
+        <footer class="py-20 text-center bg-white">
+            <p class="font-serif text-3xl italic text-[var(--gold)]">P & Y</p>
+            <p class="text-[9px] uppercase tracking-[0.8em] mt-4 opacity-30">Bogotá · MMXXVI</p>
+        </footer>
+    </main>
+
+    <script>
+        // Función para abrir el sobre
+        function openEnvelope(element) {
+            element.classList.add('open');
+            setTimeout(() => {
+                document.getElementById('envelope-wrapper').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('envelope-wrapper').style.visibility = 'hidden';
+                    document.getElementById('main-content').classList.remove('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                    reveal(); 
+                }, 1000);
+            }, 600);
+        }
+
+        // Animación Reveal
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // Contador
+        (function() {
+            const end = new Date("Nov 7, 2026 16:30:00").getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const d = end - now;
+                const dEl = document.getElementById("days");
+                const hEl = document.getElementById("hours");
+                const mEl = document.getElementById("minutes");
+                const sEl = document.getElementById("seconds");
+                
+                if(dEl) dEl.innerText = Math.floor(d / 86400000);
+                if(hEl) hEl.innerText = Math.floor((d % 86400000) / 3600000);
+                if(mEl) mEl.innerText = Math.floor((d % 3600000) / 60000);
+                if(sEl) sEl.innerText = Math.floor((d % 60000) / 1000);
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>
