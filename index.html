@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paula & Yeferson - Nuestra Boda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --nude-bg: #fff9f9;
+            --nude-dark: #f8eded;
+            --rose-gold: #d4a3a3;
+            --text-black: #1a1a1a;
+            --text-gray: #5a4a4a;
+            --pixel-car-color: #fdfdfd;
+            --pixel-car-shadow: #e0e0e0;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--nude-bg);
+            color: var(--text-gray);
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .font-serif { font-family: 'Cormorant Garamond', serif; }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1.2s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Estilo del Sobre */
+        #envelope-wrapper {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--nude-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 1s ease-in-out, visibility 1s;
+        }
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #fdf2f2;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.5s;
+        }
+        .envelope.open::before { transform: rotateX(180deg); }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 100px solid #f4e1e1;
+            z-index: 2;
+            transition: transform 0.5s;
+            transform-origin: top;
+        }
+        .wax-seal {
+            position: absolute;
+            top: 40%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            background: #d4a3a3;
+            border-radius: 50%;
+            z-index: 3;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.2rem;
+            border: 2px solid #eecaca;
+        }
+
+        /* Hero Image */
+        .hero-bg {
+            background: linear-gradient(rgba(255, 249, 249, 0.4), rgba(255, 249, 249, 0.8)), 
+                        url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover; background-position: center;
+        }
+
+        .btn-luxury {
+            border: 1px solid var(--rose-gold);
+            color: var(--rose-gold);
+            transition: all 0.4s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.7rem;
+        }
+        .btn-luxury:hover { background-color: var(--rose-gold); color: white; }
+
+        .divider { height: 1px; width: 60px; background-color: var(--rose-gold); margin: 20px auto; }
+
+        /* --- ESCENA PIXEL ART MEJORADA --- */
+        .pixel-scene {
+            width: 100%;
+            height: 140px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #ddd;
+            background: linear-gradient(transparent 80%, rgba(0,0,0,0.03) 80%);
+            margin-bottom: 20px;
+        }
+
+        .car-anim-wrapper {
+            position: absolute;
+            bottom: 12px;
+            animation: moveAcross 12s linear infinite;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        /* El Auto Dibujado con CSS */
+        .pixel-car {
+            position: relative;
+            width: 110px;
+            height: 45px;
+            background: 
+                /* Ventana frontal */
+                linear-gradient(#90cdf4 0 100%) 70px 5px/4px 15px,
+                /* Capó */
+                linear-gradient(var(--pixel-car-color) 0 100%) 75px 20px/35px 20px,
+                /* Cuerpo principal */
+                linear-gradient(var(--pixel-car-color) 0 100%) 0px 20px/80px 25px,
+                /* Sombras */
+                linear-gradient(var(--pixel-car-shadow) 0 100%) 0 40px/110px 5px;
+            background-repeat: no-repeat;
+            border-top-left-radius: 10px;
+            animation: carVibration 0.2s infinite alternate;
+        }
+
+        /* Novios Pixel Art (CSS) */
+        .pixel-novios {
+            position: absolute;
+            top: -22px;
+            left: 15px;
+            width: 60px;
+            height: 45px;
+            display: flex;
+            gap: 2px;
+        }
+
+        .novio-px, .novia-px {
+            width: 22px;
+            height: 35px;
+            position: relative;
+        }
+
+        /* Dibujo del Novio */
+        .novio-px {
+            background: 
+                linear-gradient(#4a332d 0 100%) 6px 0/10px 6px, /* Pelo */
+                linear-gradient(#f3c5a3 0 100%) 6px 6px/10px 8px, /* Cara */
+                linear-gradient(#333 0 100%) 4px 14px/14px 20px; /* Traje */
+            background-repeat: no-repeat;
+        }
+
+        /* Dibujo de la Novia */
+        .novia-px {
+            background: 
+                linear-gradient(#222 0 100%) 6px 0/12px 6px, /* Pelo */
+                linear-gradient(#f3c5a3 0 100%) 6px 6px/12px 8px, /* Cara */
+                linear-gradient(#fff 0 100%) 2px 14px/20px 21px; /* Vestido */
+            background-repeat: no-repeat;
+        }
+        .novia-px::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -2px; width: 20px; height: 30px;
+            background: rgba(255,255,255,0.4); /* Velo */
+            z-index: -1;
+        }
+
+        /* Ruedas Pixel */
+        .px-wheel {
+            position: absolute;
+            bottom: -8px;
+            width: 18px;
+            height: 18px;
+            background: #222;
+            border: 3px double #555;
+            border-radius: 50%;
+            animation: rotateWheel 0.4s linear infinite;
+        }
+        .w-front { right: 10px; }
+        .w-back { left: 10px; }
+
+        /* Latas Rebotando */
+        .tin-cans-px {
+            position: absolute;
+            left: -40px;
+            bottom: 5px;
+            display: flex;
+            gap: 4px;
+        }
+        .tin-can {
+            width: 8px;
+            height: 5px;
+            background: #cbd5e0;
+            border: 1px solid #718096;
+            animation: canBounce 0.25s infinite alternate;
+        }
+
+        @keyframes moveAcross {
+            0% { left: -160px; }
+            100% { left: 110%; }
+        }
+
+        @keyframes carVibration {
+            from { transform: translateY(0); }
+            to { transform: translateY(-2px); }
+        }
+
+        @keyframes rotateWheel {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes canBounce {
+            from { transform: translateY(0) rotate(-10deg); }
+            to { transform: translateY(-8px) rotate(20deg); }
+        }
+
+        /* Corazones Pixel flotando */
+        .px-heart {
+            position: absolute;
+            top: -20px;
+            left: 40px;
+            width: 10px;
+            height: 10px;
+            background: #ff4d4d;
+            box-shadow: 4px -4px 0 #ff4d4d, -4px -4px 0 #ff4d4d, 0 -4px 0 #ff4d4d, 4px 0 0 #ff4d4d, -4px 0 0 #ff4d4d;
+            animation: heartFloatPx 1.2s ease-out infinite;
+            opacity: 0;
+        }
+
+        @keyframes heartFloatPx {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-60px) scale(1.2); opacity: 0; }
+        }
+    </style>
+</head>
+<body class="overflow-hidden">
+
+    <!-- Pantalla de Bienvenida (Sobre) -->
+    <div id="envelope-wrapper">
+        <div class="envelope" onclick="openEnvelope(this)">
+            <div class="wax-seal font-serif">P&Y</div>
+            <div class="envelope-text" style="position: absolute; top: 65%; left: 50%; transform: translate(-50%, -50%); color: var(--rose-gold); font-style: italic;">Toca para abrir</div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal -->
+    <main id="main-content" class="hidden">
+        <!-- Portada Hero -->
+        <section class="h-screen flex flex-col items-center justify-center text-center px-6 hero-bg">
+            <div class="reveal active">
+                <p class="uppercase tracking-[0.5em] text-[10px] mb-6 text-gray-400 font-light">Nuestra Boda</p>
+                <h1 class="text-5xl md:text-7xl font-serif names-highlight mb-4">Paula & Yeferson</h1>
+                <div class="divider"></div>
+                <p class="text-lg font-light tracking-widest mt-4 uppercase">Bogotá, Colombia</p>
+                <p class="text-sm tracking-[0.3em] mt-2 italic font-serif">07 de Noviembre, 2026</p>
+            </div>
+        </section>
+
+        <!-- Mensaje de Bienvenida -->
+        <section class="py-24 px-8 bg-white text-center">
+            <div class="max-w-xl mx-auto reveal">
+                <h2 class="font-serif italic text-3xl mb-8 text-[var(--rose-gold)]">"Dos almas, un destino."</h2>
+                <p class="font-light leading-loose text-sm text-gray-500">
+                    Nuestra historia nos ha traído hasta aquí, y no podríamos imaginar este día sin las personas que han sido parte de nuestro camino.
+                </p>
+            </div>
+        </section>
+
+        <!-- Animación de Auto y Conteo -->
+        <section class="py-20 bg-[var(--nude-dark)] text-center overflow-hidden">
+            <div class="reveal">
+                <!-- Escena del Auto Pixel Art Mejorada -->
+                <div class="pixel-scene">
+                    <div class="car-anim-wrapper">
+                        <!-- Latas -->
+                        <div class="tin-cans-px">
+                            <div class="tin-can" style="animation-delay: 0s"></div>
+                            <div class="tin-can" style="animation-delay: 0.1s"></div>
+                            <div class="tin-can" style="animation-delay: 0.2s"></div>
+                        </div>
+                        <!-- Coche -->
+                        <div class="pixel-car">
+                            <div class="pixel-novios">
+                                <div class="novia-px"></div>
+                                <div class="novio-px"></div>
+                            </div>
+                            <div class="px-wheel w-back"></div>
+                            <div class="px-wheel w-front"></div>
+                            <div class="px-heart"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 class="font-serif text-2xl mb-12 italic">Estamos a...</h3>
+                <div id="countdown" class="flex justify-center gap-6 md:gap-12">
+                    <div class="flex flex-col"><span id="days" class="text-4xl font-serif text-[var(--rose-gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Días</span></div>
+                    <div class="flex flex-col"><span id="hours" class="text-4xl font-serif text-[var(--rose-gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Hrs</span></div>
+                    <div class="flex flex-col"><span id="minutes" class="text-4xl font-serif text-[var(--rose-gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2">Min</span></div>
+                    <div class="flex flex-col"><span id="seconds" class="text-4xl font-serif text-[var(--rose-gold)]">00</span><span class="text-[9px] uppercase tracking-widest mt-2 text-gray-400">Seg</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ubicaciones -->
+        <section class="py-24 px-8 bg-[var(--nude-bg)]">
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-16 text-center">
+                <div class="reveal">
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-[var(--rose-gold)] mb-4 block">La Ceremonia</span>
+                    <h4 class="font-serif text-2xl mb-4 italic">Parroquia Nuestra Señora de los Ángeles</h4>
+                    <p class="text-[11px] font-semibold tracking-widest mb-1 uppercase">La Porciúncula</p>
+                    <p class="text-[10px] text-gray-400 mb-6 italic">Cra. 11 # 72 - 82, Bogotá</p>
+                    <p class="text-xl font-serif mb-8">4:30 PM</p>
+                    <a href="https://maps.app.goo.gl/3HhY2wzD5bU8X9xR7" target="_blank" class="btn-luxury px-8 py-3 inline-block">Ver Mapa</a>
+                </div>
+                <div class="reveal">
+                    <span class="text-[10px] uppercase tracking-[0.4em] text-[var(--rose-gold)] mb-4 block">La Celebración</span>
+                    <h4 class="font-serif text-2xl mb-4 italic">Hotel W Bogotá</h4>
+                    <p class="text-[11px] font-semibold tracking-widest mb-1 uppercase">Recepción de Gala</p>
+                    <p class="text-[10px] text-gray-400 mb-6 italic">Avenida Carrera 9 # 115 - 30</p>
+                    <p class="text-xl font-serif mb-8">7:00 PM</p>
+                    <a href="https://maps.app.goo.gl/BAtFmBqQ7gD8gVpS9" target="_blank" class="btn-luxury px-8 py-3 inline-block">Ver Mapa</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Información Importante -->
+        <section class="py-24 px-8 bg-white border-y border-gray-100">
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <h3 class="font-serif text-3xl mb-16 italic text-[var(--rose-gold)]">Información Importante</h3>
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="flex flex-col items-center">
+                        <p class="text-[10px] uppercase tracking-[0.4em] mb-4 text-gray-400">Código de Vestimenta</p>
+                        <p class="font-serif text-2xl mb-2 italic">Gala Formal</p>
+                        <p class="text-[11px] font-light text-gray-500 leading-relaxed">
+                            Damas: Vestido largo.<br>
+                            Caballeros: Traje oscuro o esmoquin.
+                        </p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <p class="font-serif text-2xl mb-2 italic">Lluvia de Sobres</p>
+                    </div>
+                </div>
+
+                <div class="mt-20 pt-10 border-t border-gray-50">
+                    <p class="font-serif italic text-lg text-[var(--rose-gold)] mb-2">Una nota especial</p>
+                    <p class="text-[11px] font-light text-gray-400 tracking-wide">
+                        para que todos los adultos puedan disfrutar plenamente, hemos optado por una celebración solo para adultos. agradecemos tu comprensión.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Confirmación de Asistencia -->
+        <section class="py-32 px-8 bg-[var(--nude-dark)] text-center">
+            <div class="reveal">
+                <h3 class="font-serif text-4xl mb-6 text-[var(--rose-gold)]">¿Contamos contigo?</h3>
+                <p class="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-12">Favor confirmar antes del 20 de Octubre</p>
+                <a href="https://wa.me/573127079172?text=¡Hola!%20Confirmo%20mi%20asistencia%20a%20la%20boda%20Sierra-Pardo." target="_blank" class="bg-[var(--rose-gold)] text-white px-12 py-5 text-[10px] tracking-[0.4em] uppercase font-bold hover:opacity-80 transition-all duration-500 shadow-xl">
+                    Confirmar Asistencia
+                </a>
+            </div>
+        </section>
+
+        <!-- Pie de página -->
+        <footer class="py-20 text-center bg-white">
+            <p class="text-[9px] uppercase tracking-[0.8em] mt-4 opacity-30">BOGOTÁ</p>
+        </footer>
+    </main>
+
+    <script>
+        function openEnvelope(element) {
+            element.classList.add('open');
+            setTimeout(() => {
+                document.getElementById('envelope-wrapper').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('envelope-wrapper').style.visibility = 'hidden';
+                    document.getElementById('main-content').classList.remove('hidden');
+                    document.body.classList.remove('overflow-hidden');
+                    reveal(); 
+                }, 1000);
+            }, 600);
+        }
+
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // Contador de tiempo
+        (function() {
+            const end = new Date("Nov 7, 2026 16:30:00").getTime();
+            setInterval(() => {
+                const now = new Date().getTime();
+                const d = end - now;
+                const dEl = document.getElementById("days");
+                const hEl = document.getElementById("hours");
+                const mEl = document.getElementById("minutes");
+                const sEl = document.getElementById("seconds");
+                
+                if(dEl) dEl.innerText = Math.floor(d / 86400000);
+                if(hEl) hEl.innerText = Math.floor((d % 86400000) / 3600000);
+                if(mEl) mEl.innerText = Math.floor((d % 3600000) / 60000);
+                if(sEl) sEl.innerText = Math.floor((d % 60000) / 1000);
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>
