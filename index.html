@@ -31,7 +31,7 @@
             position: fixed;
             inset: 0;
             background-image: linear-gradient(rgba(240, 247, 255, 0.8), rgba(240, 247, 255, 0.8)), 
-                              url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
+                              url('https://images.unsplash.com/photo-1519225421980-715cb0215aed?q=80&w=2070&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
             display: flex;
@@ -109,11 +109,47 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* --- CARRETERA Y CARRITO --- */
+        /* --- GLOBOS TRANSPARENTES --- */
+        .balloon-container {
+            position: fixed;
+            bottom: -100px;
+            z-index: 1500;
+            pointer-events: none;
+        }
+
+        .balloon {
+            width: 40px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: relative;
+            box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.3);
+            animation: floatBalloon 15s linear infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 1px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes floatBalloon {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
+        }
+
+        /* --- CARRETERA Y CARRITO (Zusuki Baleno Style) --- */
         .road-container {
             position: relative;
             width: 100%;
-            max-width: 400px;
+            max-width: 500px;
             margin: 0 auto 30px;
             padding-bottom: 20px;
         }
@@ -148,14 +184,14 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 120px;
+            width: 200px;
             z-index: 20;
-            animation: carVibrate 0.3s infinite alternate;
+            animation: carVibrate 0.4s infinite alternate ease-in-out;
         }
 
         @keyframes carVibrate {
             from { transform: translateX(-50%) translateY(0); }
-            to { transform: translateX(-50%) translateY(-1px); }
+            to { transform: translateX(-50%) translateY(-2px); }
         }
 
         /* --- CONTENIDO --- */
@@ -164,8 +200,8 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         .hero-bg {
-            background: linear-gradient(rgba(240, 247, 255, 0.4), rgba(240, 247, 255, 0.8)), 
-                        url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop');
+            background: linear-gradient(rgba(240, 247, 255, 0.5), rgba(240, 247, 255, 0.8)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2070&auto=format&fit=crop');
             background-size: cover; background-position: center;
         }
 
@@ -177,12 +213,13 @@
             border: 1px solid var(--sky-light);
         }
 
-        .btn-luxury { border: 1px solid var(--sky-blue); color: var(--sky-dark); transition: all 0.4s; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; }
+        .btn-luxury { border: 1px solid var(--sky-blue); color: var(--sky-dark); transition: all 0.4s; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; border-radius: 4px; }
         .btn-luxury:hover { background-color: var(--sky-blue); color: white; }
     </style>
 </head>
 <body class="overflow-hidden">
 
+    <!-- Música de Piano -->
     <audio id="wedding-music" loop preload="auto">
         <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Soft-Piano-Music.mp3" type="audio/mpeg">
     </audio>
@@ -208,10 +245,10 @@
     </div>
 
     <main id="main-content">
+        <!-- Hero Section -->
         <section class="h-screen flex flex-col items-center justify-center text-center px-6 hero-bg">
             <div class="reveal">
-                <!-- Ajuste de visibilidad: Texto más oscuro y definido -->
-                <p class="uppercase tracking-[0.5em] text-[11px] mb-4 text-slate-600 font-semibold italic">Uniendo nuestras vidas</p>
+                <p class="uppercase tracking-[0.5em] text-[11px] mb-4 text-slate-800 font-bold italic">Uniendo nuestras vidas</p>
                 <h1 class="text-5xl md:text-7xl font-serif text-[var(--text-black)]">Yeferson & Paula</h1>
                 <div class="w-12 h-[1px] bg-[var(--sky-blue)] mx-auto my-6"></div>
                 <p class="text-sm tracking-[0.3em] italic font-serif text-[var(--sky-dark)] uppercase">¡Nos Casamos!</p>
@@ -219,37 +256,40 @@
             </div>
         </section>
 
-        <!-- Contador con Carretera y Carrito -->
+        <!-- Contador con Carretera y Suzuki Baleno Gris Metálico -->
         <section class="py-24 bg-[var(--sky-light)] text-center relative overflow-hidden">
             <div class="reveal px-4">
-                
                 <div class="road-container">
-                    <!-- CARRO PIXEL ART (Recuperado) -->
                     <div class="car-container">
-                        <svg viewBox="0 0 100 50" xmlns="http://www.w3.org/2000/svg" style="image-rendering: pixelated; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.1));">
-                            <rect x="10" y="25" width="80" height="15" fill="#87ceeb" />
-                            <rect x="25" y="15" width="45" height="15" fill="#87ceeb" />
-                            <rect x="30" y="18" width="15" height="8" fill="#ffffff" opacity="0.7" />
-                            <rect x="50" y="18" width="15" height="8" fill="#ffffff" opacity="0.7" />
+                        <!-- Auto Estilo Suzuki Baleno -->
+                        <svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Cuerpo Principal - Gris Metálico -->
+                            <path d="M15 70 L25 68 L50 45 L130 45 L175 62 L200 65 L205 70 L205 85 L15 85 Z" fill="#bdc3c7" />
+                            <!-- Detalles de sombras metálicas -->
+                            <path d="M50 45 L130 45 L125 55 L55 55 Z" fill="#95a5a6" opacity="0.3" />
+                            <rect x="20" y="80" width="180" height="4" fill="#7f8c8d" />
+                            
+                            <!-- Ventanas (Estilo hatchback) -->
+                            <path d="M55 48 L125 48 L120 62 L58 62 Z" fill="#d9f2ff" opacity="0.8" />
+                            <path d="M130 48 L165 60 L135 62 Z" fill="#d9f2ff" opacity="0.6" />
+                            
                             <!-- Novios -->
-                            <rect x="35" y="8" width="8" height="8" fill="#fdd7bd" />
-                            <rect x="35" y="4" width="8" height="4" fill="#333" />
-                            <rect x="35" y="16" width="8" height="4" fill="#111" />
-                            <rect x="52" y="8" width="8" height="8" fill="#fdd7bd" />
-                            <rect x="52" y="2" width="10" height="10" fill="#6d4c41" />
-                            <rect x="52" y="16" width="8" height="4" fill="#fff" />
-                            <rect x="20" y="35" width="12" height="10" fill="#111" />
-                            <rect x="68" y="35" width="12" height="10" fill="#111" />
-                            <rect x="85" y="28" width="5" height="5" fill="#ffd700" />
-                            <rect x="10" y="28" width="3" height="5" fill="#ff4444" />
-                            <circle cx="20" cy="20" r="3" fill="#ffb7ce" />
-                            <circle cx="15" cy="25" r="2" fill="#ffb7ce" />
+                            <circle cx="85" cy="55" r="9" fill="#fdd7bd" /> <!-- Yeferson -->
+                            <circle cx="110" cy="55" r="9" fill="#fdd7bd" /> <!-- Paula -->
+                            <path d="M102 45 Q115 35 125 55" stroke="white" stroke-width="2" fill="none" opacity="0.7" /> <!-- Velo suave -->
+
+                            <!-- Luces y Parrilla -->
+                            <path d="M200 68 Q205 68 205 75 L200 75 Z" fill="#ffff99" /> <!-- Faros delanteros -->
+                            <path d="M15 72 L18 72 L18 78 L15 78 Z" fill="#e74c3c" /> <!-- Luces traseras -->
+                            
+                            <!-- Ruedas -->
+                            <circle cx="55" cy="85" r="14" fill="#222" />
+                            <circle cx="55" cy="85" r="7" fill="#bdc3c7" />
+                            <circle cx="165" cy="85" r="14" fill="#222" />
+                            <circle cx="165" cy="85" r="7" fill="#bdc3c7" />
                         </svg>
                     </div>
-                    <!-- La Carretera -->
                     <div class="road">
-                        <div class="road-line"></div>
-                        <div class="road-line"></div>
                         <div class="road-line"></div>
                         <div class="road-line"></div>
                         <div class="road-line"></div>
@@ -268,41 +308,52 @@
             </div>
         </section>
 
-        <!-- Detalles -->
+        <!-- Ubicación -->
         <section class="py-24 px-8 bg-white">
+            <div class="max-w-4xl mx-auto text-center mb-12 reveal">
+                <h3 class="font-serif text-3xl mb-4 italic">Nuestra Celebración</h3>
+                <p class="text-gray-500 text-sm tracking-widest uppercase">Todo en un mismo lugar</p>
+            </div>
+            
             <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-12">
                 <div class="reveal text-center p-8 bg-slate-50 border border-sky-100 rounded-lg shadow-sm">
                     <h4 class="font-serif text-xl mb-4 italic">Ceremonia</h4>
-                    <p class="text-sm text-gray-500 mb-6">Parroquia de la Porciúncula<br>4:30 PM</p>
-                    <a href="https://maps.app.goo.gl/3HhY2wzD5bU8X9xR7" target="_blank" class="btn-luxury px-6 py-2 inline-block">Ver Mapa</a>
+                    <p class="text-sm text-gray-600 mb-2 font-bold uppercase tracking-wide">Club Laverdieri Capilla</p>
+                    <p class="text-sm text-gray-500 mb-6">Kilómetro 6 vía Suba - Cota<br>05:30 P.M.</p>
+                    <a href="https://maps.app.goo.gl/JnT3TUsub566bWd47" target="_blank" class="btn-luxury px-6 py-2 inline-block">Ver Ubicación</a>
                 </div>
+
                 <div class="reveal text-center p-8 bg-slate-50 border border-sky-100 rounded-lg shadow-sm">
                     <h4 class="font-serif text-xl mb-4 italic">Recepción</h4>
-                    <p class="text-sm text-gray-500 mb-6">Hotel W Bogotá<br>7:00 PM</p>
-                    <a href="https://maps.app.goo.gl/BAtFmBqQ7gD8gVpS9" target="_blank" class="btn-luxury px-6 py-2 inline-block">Ver Mapa</a>
+                    <p class="text-sm text-gray-600 mb-2 font-bold uppercase tracking-wide">Club Laverdieri</p>
+                    <p class="text-sm text-gray-500 mb-6">Salón de Eventos<br>07:00 P.M.</p>
+                    <a href="https://maps.app.goo.gl/JnT3TUsub566bWd47" target="_blank" class="btn-luxury px-6 py-2 inline-block">Ver Ubicación</a>
                 </div>
             </div>
         </section>
 
-        <!-- Párrafo de Amor Final -->
-        <section class="py-24 px-8 text-center bg-white border-t border-sky-50">
-            <div class="reveal max-w-2xl mx-auto">
-                <div class="mb-6">
-                    <svg class="w-8 h-8 mx-auto text-[var(--sky-blue)] opacity-50" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        <!-- Solo Adultos -->
+        <section class="py-16 bg-slate-50 border-y border-sky-50">
+            <div class="reveal max-w-lg mx-auto text-center px-6">
+                <div class="mb-6 relative inline-block">
+                    <svg class="w-16 h-16 mx-auto text-gray-400 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                        <path d="M8 19c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM15 15l1.5-3.5L14 3H9l-2 9H4v2h11.5c.3 0 .5-.2.5-.5V15zM7 12l1-4h5l1 4H7z" />
+                        <circle cx="12" cy="12" r="10" stroke="red" stroke-width="1.5" opacity="0.4" />
+                        <line x1="5" y1="19" x2="19" y2="5" stroke="red" stroke-width="1.5" opacity="0.4" />
                     </svg>
                 </div>
-                <p class="font-serif text-xl italic text-slate-700 leading-relaxed">
-                    "En este viaje que hoy emprendemos, cada paso es más dulce porque lo damos juntos. El amor no es solo mirarse el uno al otro, sino mirar ambos en la misma dirección."
+                <h4 class="font-serif text-2xl italic mb-3">Un respiro para papá y mamá</h4>
+                <p class="text-sm text-gray-500 leading-relaxed italic">
+                    Amamos a sus pequeños, pero para que todos disfruten al máximo, nuestra boda será **solo para adultos**. ¡Gracias por su comprensión!
                 </p>
-                <p class="mt-8 text-[10px] uppercase tracking-[0.4em] text-[var(--sky-dark)] font-bold">Te esperamos para celebrar nuestro amor</p>
             </div>
         </section>
 
-        <section class="pb-24 text-center bg-white">
+        <!-- Confirmación -->
+        <section class="py-24 text-center bg-white">
             <div class="reveal">
                 <h3 class="font-serif text-3xl mb-8">¿Nos acompañas?</h3>
-                <a href="https://wa.me/573127079172?text=¡Confirmamos!" target="_blank" class="bg-[var(--sky-dark)] text-white px-10 py-4 uppercase tracking-widest text-xs font-bold shadow-lg">Confirmar Asistencia</a>
+                <a href="https://wa.me/573127079172?text=¡Confirmamos para Club Laverdieri!" target="_blank" class="bg-[var(--sky-dark)] text-white px-10 py-4 uppercase tracking-widest text-xs font-bold shadow-lg rounded-sm transition hover:bg-[var(--sky-blue)]">Confirmar Asistencia</a>
             </div>
         </section>
     </main>
@@ -318,21 +369,23 @@
             
             envelope.classList.add('open');
             
-            // Confeti al instante
             confetti({
-                particleCount: 220,
+                particleCount: 200,
                 spread: 100,
                 origin: { y: 0.6 },
-                colors: ['#87ceeb', '#ffffff', '#5dade2', '#ffd700'],
-                ticks: 400
+                colors: ['#87ceeb', '#ffffff', '#5dade2']
             });
 
-            // Música
             audio.play().then(() => {
                 musicBtn.style.display = 'flex';
             }).catch(() => {
                 musicBtn.style.display = 'flex';
             });
+
+            // Generar globos transparentes
+            for(let i=0; i<8; i++) {
+                setTimeout(createBalloon, i * 1500);
+            }
 
             setTimeout(() => {
                 starter.style.opacity = '0';
@@ -345,8 +398,32 @@
             }, 2500);
         }
 
+        function createBalloon() {
+            const b = document.createElement('div');
+            b.className = 'balloon-container';
+            b.style.left = Math.random() * 90 + 'vw';
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            // Variar tamaño un poco
+            const size = Math.random() * 20 + 30;
+            balloon.style.width = size + 'px';
+            balloon.style.height = (size * 1.2) + 'px';
+            
+            b.appendChild(balloon);
+            document.body.appendChild(b);
+            
+            // Remover después de la animación
+            setTimeout(() => b.remove(), 15000);
+        }
+
         function toggleMusic() {
-            if (audio.paused) audio.play(); else audio.pause();
+            if (audio.paused) {
+                audio.play();
+                document.getElementById('icon-music').style.opacity = '1';
+            } else {
+                audio.pause();
+                document.getElementById('icon-music').style.opacity = '0.5';
+            }
         }
 
         function reveal() {
@@ -356,7 +433,7 @@
         }
         window.addEventListener("scroll", reveal);
 
-        const weddingDate = new Date("Nov 7, 2026 16:30:00").getTime();
+        const weddingDate = new Date("Nov 7, 2026 17:30:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const distance = weddingDate - now;
