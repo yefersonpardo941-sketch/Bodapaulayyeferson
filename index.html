@@ -145,7 +145,7 @@
             100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
         }
 
-        /* --- CARRETERA Y CARRITO (Zusuki Baleno Style) --- */
+        /* --- CARRETERA Y CARRITO (Suzuki Baleno Style) --- */
         .road-container {
             position: relative;
             width: 100%;
@@ -215,6 +215,16 @@
 
         .btn-luxury { border: 1px solid var(--sky-blue); color: var(--sky-dark); transition: all 0.4s; text-transform: uppercase; letter-spacing: 2px; font-size: 0.75rem; border-radius: 4px; }
         .btn-luxury:hover { background-color: var(--sky-blue); color: white; }
+
+        .color-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 1px solid #e2e8f0;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body class="overflow-hidden">
@@ -328,6 +338,38 @@
                     <p class="text-sm text-gray-600 mb-2 font-bold uppercase tracking-wide">Club Laverdieri</p>
                     <p class="text-sm text-gray-500 mb-6">Salón de Eventos<br>07:00 P.M.</p>
                     <a href="https://maps.app.goo.gl/JnT3TUsub566bWd47" target="_blank" class="btn-luxury px-6 py-2 inline-block">Ver Ubicación</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Código de Vestimenta y Colores Restringidos -->
+        <section class="py-20 px-8 bg-[var(--sky-light)]">
+            <div class="max-w-3xl mx-auto text-center reveal">
+                <h3 class="font-serif text-3xl mb-6 italic">Código de Vestimenta</h3>
+                <div class="inline-block p-8 bg-white rounded-lg shadow-sm border border-sky-200">
+                    <p class="text-lg font-bold uppercase tracking-widest text-gray-700 mb-4">Traje Formal</p>
+                    <p class="text-sm text-gray-500 italic mb-8">
+                        Nos encantaría verlos luciendo sus mejores galas para celebrar este día tan especial.
+                    </p>
+                    
+                    <div class="w-full h-px bg-sky-100 mb-8"></div>
+                    
+                    <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-gray-400 mb-6">Colores Restringidos</h4>
+                    <div class="flex flex-wrap justify-center gap-6">
+                        <div class="flex items-center text-xs uppercase tracking-widest text-gray-600">
+                            <span class="color-circle" style="background-color: #ffffff;"></span>
+                            Blanco
+                        </div>
+                        <div class="flex items-center text-xs uppercase tracking-widest text-gray-600">
+                            <span class="color-circle" style="background-color: #87ceeb;"></span>
+                            Azul Celeste
+                        </div>
+                        <div class="flex items-center text-xs uppercase tracking-widest text-gray-600">
+                            <span class="color-circle" style="background-color: #1a1a1a;"></span>
+                            Negro
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-gray-400 mt-6 uppercase italic tracking-wider">Por favor, evite estos colores para su vestimenta</p>
                 </div>
             </div>
         </section>
