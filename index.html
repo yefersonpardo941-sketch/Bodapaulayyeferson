@@ -109,74 +109,40 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* --- GLOBOS TRANSPARENTES --- */
-        .balloon-container {
-            position: fixed;
-            bottom: -100px;
-            z-index: 1500;
-            pointer-events: none;
-        }
-
-        .balloon {
-            width: 40px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
-            position: relative;
-            box-shadow: inset -5px -5px 10px rgba(255, 255, 255, 0.3);
-            animation: floatBalloon 15s linear infinite;
-        }
-
-        .balloon::after {
-            content: '';
-            position: absolute;
-            bottom: -30px;
-            left: 50%;
-            width: 1px;
-            height: 30px;
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        @keyframes floatBalloon {
-            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.8; }
-            90% { opacity: 0.8; }
-            100% { transform: translateY(-120vh) translateX(50px) rotate(15deg); opacity: 0; }
-        }
-
-        /* --- CARRETERA Y CARRITO (Suzuki Baleno Style) --- */
+        /* --- CARRETERA Y CARRITO --- */
         .road-container {
             position: relative;
             width: 100%;
-            max-width: 500px;
+            max-width: 550px;
             margin: 0 auto 30px;
             padding-bottom: 20px;
         }
 
         .road {
             width: 100%;
-            height: 40px;
-            background: #4b5563;
-            border-radius: 8px;
+            height: 44px;
+            background: linear-gradient(180deg, #374151 0%, #1f2937 100%);
+            border-radius: 12px;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .road-line {
-            width: 30px;
+            width: 32px;
             height: 3px;
-            background: rgba(255, 255, 255, 0.5);
-            margin: 0 15px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 2px;
+            margin: 0 16px;
             flex-shrink: 0;
-            animation: moveRoad 0.8s linear infinite;
+            animation: moveRoad 0.6s linear infinite;
         }
 
         @keyframes moveRoad {
             from { transform: translateX(0); }
-            to { transform: translateX(-45px); }
+            to { transform: translateX(-64px); }
         }
 
         .car-container {
@@ -184,14 +150,36 @@
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            width: 200px;
+            width: 250px;
             z-index: 20;
-            animation: carVibrate 0.4s infinite alternate ease-in-out;
+            animation: carVibrate 0.5s infinite alternate ease-in-out;
         }
 
         @keyframes carVibrate {
-            from { transform: translateX(-50%) translateY(0); }
-            to { transform: translateX(-50%) translateY(-2px); }
+            0% { transform: translateX(-50%) translateY(0) rotate(0deg); }
+            50% { transform: translateX(-50%) translateY(-2px) rotate(-0.5deg); }
+            100% { transform: translateX(-50%) translateY(-1px) rotate(0.5deg); }
+        }
+
+        .wheel-spin {
+            animation: spinWheel 0.5s linear infinite;
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        @keyframes spinWheel {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .heart-particle {
+            animation: floatHeart 2s infinite ease-out;
+        }
+
+        @keyframes floatHeart {
+            0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+            50% { opacity: 0.9; transform: translate(-20px, -15px) scale(1.1); }
+            100% { opacity: 0; transform: translate(-40px, -35px) scale(0.7); }
         }
 
         /* --- CONTENIDO --- */
@@ -225,11 +213,48 @@
             vertical-align: middle;
             margin-right: 8px;
         }
+
+        /* --- GLOBOS --- */
+        .balloon {
+            position: fixed;
+            bottom: -100px;
+            width: 45px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            z-index: 2500;
+            animation: floatUp ease-in forwards;
+            opacity: 0.95;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.1);
+        }
+        .balloon::before {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 8px solid currentColor;
+        }
+        .balloon::after {
+            content: "";
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            width: 1px;
+            height: 40px;
+            background: rgba(0,0,0,0.25);
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.1) rotate(15deg); opacity: 0; }
+        }
     </style>
 </head>
 <body class="overflow-hidden">
 
-    <!-- Música de Piano -->
     <audio id="wedding-music" loop preload="auto">
         <source src="https://www.chosic.com/wp-content/uploads/2021/07/The-Soft-Piano-Music.mp3" type="audio/mpeg">
     </audio>
@@ -240,7 +265,7 @@
         </svg>
     </div>
 
-    <!-- SOBRE -->
+    <!-- SOBRE INICIAL -->
     <div id="invitation-starter">
         <div class="envelope-container" id="main-envelope" onclick="startExperience()">
             <div class="envelope-flap"></div>
@@ -266,40 +291,90 @@
             </div>
         </section>
 
-        <!-- Contador con Carretera y Suzuki Baleno Gris Metálico -->
+        <!-- Contador y Carrito -->
         <section class="py-24 bg-[var(--sky-light)] text-center relative overflow-hidden">
             <div class="reveal px-4">
                 <div class="road-container">
                     <div class="car-container">
-                        <!-- Auto Estilo Suzuki Baleno -->
-                        <svg viewBox="0 0 220 100" xmlns="http://www.w3.org/2000/svg">
-                            <!-- Cuerpo Principal - Gris Metálico -->
-                            <path d="M15 70 L25 68 L50 45 L130 45 L175 62 L200 65 L205 70 L205 85 L15 85 Z" fill="#bdc3c7" />
-                            <!-- Detalles de sombras metálicas -->
-                            <path d="M50 45 L130 45 L125 55 L55 55 Z" fill="#95a5a6" opacity="0.3" />
-                            <rect x="20" y="80" width="180" height="4" fill="#7f8c8d" />
-                            
-                            <!-- Ventanas (Estilo hatchback) -->
-                            <path d="M55 48 L125 48 L120 62 L58 62 Z" fill="#d9f2ff" opacity="0.8" />
-                            <path d="M130 48 L165 60 L135 62 Z" fill="#d9f2ff" opacity="0.6" />
-                            
-                            <!-- Novios -->
-                            <circle cx="85" cy="55" r="9" fill="#fdd7bd" /> <!-- Yeferson -->
-                            <circle cx="110" cy="55" r="9" fill="#fdd7bd" /> <!-- Paula -->
-                            <path d="M102 45 Q115 35 125 55" stroke="white" stroke-width="2" fill="none" opacity="0.7" /> <!-- Velo suave -->
+                        <svg viewBox="0 0 280 120" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto drop-shadow-md">
+                            <!-- Corazones Flotantes del Caño de Escape -->
+                            <g>
+                                <path class="heart-particle" style="animation-delay: 0s;" d="M25 50 C25 45 30 42 34 46 C38 42 43 45 43 50 C43 56 34 62 34 62 C34 62 25 56 25 50 Z" fill="#f43f5e"/>
+                                <path class="heart-particle" style="animation-delay: 0.7s;" d="M15 40 C15 36 19 33 22 36 C25 33 29 36 29 40 C29 45 22 50 22 50 C22 50 15 45 15 40 Z" fill="#38bdf8"/>
+                                <path class="heart-particle" style="animation-delay: 1.3s;" d="M35 35 C35 31 39 28 42 31 C45 28 49 31 49 35 C49 40 42 45 42 45 C42 45 35 40 35 35 Z" fill="#fb7185"/>
+                            </g>
 
-                            <!-- Luces y Parrilla -->
-                            <path d="M200 68 Q205 68 205 75 L200 75 Z" fill="#ffff99" /> <!-- Faros delanteros -->
-                            <path d="M15 72 L18 72 L18 78 L15 78 Z" fill="#e74c3c" /> <!-- Luces traseras -->
+                            <!-- Luz Delantera -->
+                            <polygon points="230,82 280,72 280,95 230,88" fill="url(#headlight-gradient)" opacity="0.6"/>
+
+                            <defs>
+                                <linearGradient id="headlight-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#fef08a" stop-opacity="0.8"/>
+                                    <stop offset="100%" stop-color="#fef08a" stop-opacity="0"/>
+                                </linearGradient>
+                                <linearGradient id="car-body" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#e0f2fe"/>
+                                    <stop offset="50%" stop-color="#ffffff"/>
+                                    <stop offset="100%" stop-color="#bae6fd"/>
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Sombra del Auto -->
+                            <ellipse cx="140" cy="98" rx="110" ry="8" fill="#1e293b" opacity="0.3"/>
+
+                            <!-- Carrocería Clásica -->
+                            <path d="M 30 85 L 40 68 C 50 62 70 60 100 60 C 130 60 170 65 210 68 L 245 72 C 255 75 255 88 240 90 L 35 90 C 28 90 25 88 30 85 Z" fill="url(#car-body)" stroke="#0284c7" stroke-width="2"/>
                             
-                            <!-- Ruedas -->
-                            <circle cx="55" cy="85" r="14" fill="#222" />
-                            <circle cx="55" cy="85" r="7" fill="#bdc3c7" />
-                            <circle cx="165" cy="85" r="14" fill="#222" />
-                            <circle cx="165" cy="85" r="7" fill="#bdc3c7" />
+                            <!-- Parabrisas -->
+                            <path d="M 135 60 L 155 38 C 158 34 165 34 172 38 L 185 62 Z" fill="#e0f2fe" opacity="0.7" stroke="#38bdf8" stroke-width="2"/>
+                            
+                            <!-- Siluetas de los Novios -->
+                            <path d="M 100 48 Q 75 45 50 52 Q 70 42 95 44 Z" fill="#ffffff" opacity="0.85"/> <!-- Velo novia -->
+                            <circle cx="112" cy="48" r="8" fill="#fbcfe8"/> <!-- Cabeza novia -->
+                            <circle cx="112" cy="45" r="6" fill="#f43f5e"/>
+                            <circle cx="138" cy="46" r="8" fill="#fed7aa"/> <!-- Cabeza novio -->
+                            <path d="M 130 54 L 146 54 L 144 62 L 132 62 Z" fill="#1e293b"/> <!-- Traje novio -->
+
+                            <!-- Volante -->
+                            <path d="M 148 50 L 158 56" stroke="#475569" stroke-width="3" stroke-linecap="round"/>
+
+                            <!-- Placa Recién Casados -->
+                            <rect x="26" y="74" width="30" height="12" rx="2" fill="#ffffff" stroke="#38bdf8" stroke-width="1"/>
+                            <text x="41" y="82" font-size="4.5" font-weight="bold" fill="#0284c7" text-anchor="middle" font-family="sans-serif">RECIÉN CASADOS</text>
+
+                            <!-- Parachoques Cromados -->
+                            <rect x="242" y="80" width="8" height="9" rx="2" fill="#94a3b8"/>
+                            <rect x="20" y="82" width="6" height="7" rx="1" fill="#94a3b8"/>
+
+                            <!-- Rueda Trasera -->
+                            <g transform="translate(70, 88)">
+                                <circle cx="0" cy="0" r="16" fill="#1e293b"/>
+                                <circle cx="0" cy="0" r="10" fill="#e2e8f0"/>
+                                <circle cx="0" cy="0" r="4" fill="#0284c7"/>
+                                <g class="wheel-spin">
+                                    <line x1="-9" y1="0" x2="9" y2="0" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="0" y1="-9" x2="0" y2="9" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="-6" y1="6" x2="6" y2="-6" stroke="#64748b" stroke-width="1.5"/>
+                                </g>
+                            </g>
+
+                            <!-- Rueda Delantera -->
+                            <g transform="translate(200, 88)">
+                                <circle cx="0" cy="0" r="16" fill="#1e293b"/>
+                                <circle cx="0" cy="0" r="10" fill="#e2e8f0"/>
+                                <circle cx="0" cy="0" r="4" fill="#0284c7"/>
+                                <g class="wheel-spin">
+                                    <line x1="-9" y1="0" x2="9" y2="0" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="0" y1="-9" x2="0" y2="9" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="-6" y1="-6" x2="6" y2="6" stroke="#64748b" stroke-width="1.5"/>
+                                    <line x1="-6" y1="6" x2="6" y2="-6" stroke="#64748b" stroke-width="1.5"/>
+                                </g>
+                            </g>
                         </svg>
                     </div>
                     <div class="road">
+                        <div class="road-line"></div>
                         <div class="road-line"></div>
                         <div class="road-line"></div>
                         <div class="road-line"></div>
@@ -342,7 +417,7 @@
             </div>
         </section>
 
-        <!-- Código de Vestimenta y Colores Restringidos -->
+        <!-- Código de Vestimenta -->
         <section class="py-20 px-8 bg-[var(--sky-light)]">
             <div class="max-w-3xl mx-auto text-center reveal">
                 <h3 class="font-serif text-3xl mb-6 italic">Código de Vestimenta</h3>
@@ -364,25 +439,29 @@
                             <span class="color-circle" style="background-color: #87ceeb;"></span>
                             Azul Celeste
                         </div>
-                        <div class="flex items-center text-xs uppercase tracking-widest text-gray-600">
-                            <span class="color-circle" style="background-color: #1a1a1a;"></span>
-                            Negro
-                        </div>
                     </div>
                     <p class="text-[10px] text-gray-400 mt-6 uppercase italic tracking-wider">Por favor, evite estos colores para su vestimenta</p>
                 </div>
             </div>
         </section>
 
-        <!-- Solo Adultos -->
-        <section class="py-16 bg-slate-50 border-y border-sky-50">
+        <!-- Nota Solo Adultos -->
+        <section class="py-16 bg-white border-y border-sky-50">
             <div class="reveal max-w-lg mx-auto text-center px-6">
-                <div class="mb-6 relative inline-block">
-                    <svg class="w-16 h-16 mx-auto text-gray-400 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                        <path d="M8 19c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm10 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM15 15l1.5-3.5L14 3H9l-2 9H4v2h11.5c.3 0 .5-.2.5-.5V15zM7 12l1-4h5l1 4H7z" />
-                        <circle cx="12" cy="12" r="10" stroke="red" stroke-width="1.5" opacity="0.4" />
-                        <line x1="5" y1="19" x2="19" y2="5" stroke="red" stroke-width="1.5" opacity="0.4" />
-                    </svg>
+                <!-- Icono cochecito prohibido -->
+                <div class="flex justify-center mb-6">
+                    <div class="relative w-16 h-16 flex items-center justify-center opacity-80">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10">
+                            <path d="M5.5 8.5h3l2.5 6h5.5l1.5-4h-9" />
+                            <circle cx="9.5" cy="17.5" r="1.5" />
+                            <circle cx="15.5" cy="17.5" r="1.5" />
+                            <path d="M7 8.5C7 6 8.5 4 11 4s4 2 4 4.5" />
+                        </svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#fca5a5" stroke-width="1.5" class="w-16 h-16 absolute top-0 left-0">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
+                        </svg>
+                    </div>
                 </div>
                 <h4 class="font-serif text-2xl italic mb-3">Un respiro para papá y mamá</h4>
                 <p class="text-sm text-gray-500 leading-relaxed italic">
@@ -391,11 +470,63 @@
             </div>
         </section>
 
+        <!-- Lluvia de Sobres -->
+        <section class="py-20 px-8 bg-[var(--sky-light)]">
+            <div class="reveal max-w-2xl mx-auto text-center">
+                <div class="w-16 h-16 mx-auto bg-white rounded-full flex items-center justify-center shadow-sm mb-6 border border-sky-100">
+                    <svg class="w-7 h-7 text-[var(--sky-dark)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h3 class="font-serif text-3xl mb-4 italic text-gray-800">Lluvia de Sobres</h3>
+                <p class="text-sm text-gray-600 leading-relaxed max-w-md mx-auto">
+                    Su presencia es nuestro mayor regalo, pero si desean tener un detalle con nosotros, tendremos un buzón para lluvia de sobres en la recepción de nuestro evento.
+                </p>
+            </div>
+        </section>
+
         <!-- Confirmación -->
-        <section class="py-24 text-center bg-white">
-            <div class="reveal">
-                <h3 class="font-serif text-3xl mb-8">¿Nos acompañas?</h3>
-                <a href="https://wa.me/573127079172?text=¡Confirmamos para Club Laverdieri!" target="_blank" class="bg-[var(--sky-dark)] text-white px-10 py-4 uppercase tracking-widest text-xs font-bold shadow-lg rounded-sm transition hover:bg-[var(--sky-blue)]">Confirmar Asistencia</a>
+        <section class="py-24 text-center bg-white relative">
+            <div class="reveal max-w-xl mx-auto px-6">
+                <h3 class="font-serif text-3xl md:text-4xl mb-4 italic text-gray-800">¿Nos acompañas?</h3>
+                <p class="text-sm text-gray-500 mb-8 max-w-md mx-auto">
+                    Tu presencia es nuestro mejor regalo. Por favor ayúdanos a organizar este día especial confirmando tu asistencia.
+                </p>
+
+                <!-- Tarjeta de Plazo Máximo -->
+                <div class="p-6 mb-8 bg-sky-50 border border-sky-200 rounded-xl shadow-sm">
+                    <p class="text-xs uppercase tracking-[0.2em] font-bold text-[var(--sky-dark)] mb-2">Plazo de Confirmación</p>
+                    <p class="text-base font-semibold text-gray-800 mb-4">
+                        Tienes hasta el <span class="text-sky-600 font-bold">10 de octubre de 2026</span> para confirmar tu asistencia
+                    </p>
+
+                    <!-- Cuenta Regresiva RSVP -->
+                    <div id="rsvp-countdown" class="flex justify-center gap-3 text-center py-2">
+                        <div class="bg-white px-3 py-2 rounded-lg shadow-xs border border-sky-100 min-w-[65px]">
+                            <span id="rsvp-days" class="text-2xl font-serif font-bold text-[var(--sky-dark)]">00</span>
+                            <span class="block text-[8px] uppercase tracking-wider text-gray-400 font-semibold">Días</span>
+                        </div>
+                        <div class="bg-white px-3 py-2 rounded-lg shadow-xs border border-sky-100 min-w-[65px]">
+                            <span id="rsvp-hours" class="text-2xl font-serif font-bold text-[var(--sky-dark)]">00</span>
+                            <span class="block text-[8px] uppercase tracking-wider text-gray-400 font-semibold">Horas</span>
+                        </div>
+                        <div class="bg-white px-3 py-2 rounded-lg shadow-xs border border-sky-100 min-w-[65px]">
+                            <span id="rsvp-minutes" class="text-2xl font-serif font-bold text-[var(--sky-dark)]">00</span>
+                            <span class="block text-[8px] uppercase tracking-wider text-gray-400 font-semibold">Min</span>
+                        </div>
+                        <div class="bg-white px-3 py-2 rounded-lg shadow-xs border border-sky-100 min-w-[65px]">
+                            <span id="rsvp-seconds" class="text-2xl font-serif font-bold text-sky-400">00</span>
+                            <span class="block text-[8px] uppercase tracking-wider text-gray-400 font-semibold">Seg</span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://forms.gle/Hdg5SZdjYNXLhUNr9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 bg-[var(--sky-dark)] text-white px-8 py-4 uppercase tracking-widest text-xs font-bold shadow-lg rounded-lg transition hover:bg-[var(--sky-blue)] hover:scale-105 transform duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    Confirmar Asistencia
+                </a>
             </div>
         </section>
     </main>
@@ -403,6 +534,26 @@
     <script>
         const audio = document.getElementById('wedding-music');
         const musicBtn = document.getElementById('music-control');
+
+        function createBalloons() {
+            const colors = ['#87ceeb', '#fbcfe8', '#bae6fd', '#ffffff', '#d6eaf8'];
+            for(let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const balloon = document.createElement('div');
+                    balloon.className = 'balloon';
+                    balloon.style.left = Math.random() * 90 + 'vw';
+                    balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    balloon.style.color = balloon.style.backgroundColor; 
+                    
+                    const duration = 4 + Math.random() * 4;
+                    balloon.style.animationDuration = duration + 's';
+                    
+                    document.body.appendChild(balloon);
+                    
+                    setTimeout(() => { balloon.remove(); }, duration * 1000);
+                }, i * 200);
+            }
+        }
 
         function startExperience() {
             const envelope = document.getElementById('main-envelope');
@@ -412,22 +563,19 @@
             envelope.classList.add('open');
             
             confetti({
-                particleCount: 200,
-                spread: 100,
+                particleCount: 150,
+                spread: 70,
                 origin: { y: 0.6 },
                 colors: ['#87ceeb', '#ffffff', '#5dade2']
             });
+
+            createBalloons();
 
             audio.play().then(() => {
                 musicBtn.style.display = 'flex';
             }).catch(() => {
                 musicBtn.style.display = 'flex';
             });
-
-            // Generar globos transparentes
-            for(let i=0; i<8; i++) {
-                setTimeout(createBalloon, i * 1500);
-            }
 
             setTimeout(() => {
                 starter.style.opacity = '0';
@@ -438,24 +586,6 @@
                     reveal();
                 }, 1000);
             }, 2500);
-        }
-
-        function createBalloon() {
-            const b = document.createElement('div');
-            b.className = 'balloon-container';
-            b.style.left = Math.random() * 90 + 'vw';
-            const balloon = document.createElement('div');
-            balloon.className = 'balloon';
-            // Variar tamaño un poco
-            const size = Math.random() * 20 + 30;
-            balloon.style.width = size + 'px';
-            balloon.style.height = (size * 1.2) + 'px';
-            
-            b.appendChild(balloon);
-            document.body.appendChild(b);
-            
-            // Remover después de la animación
-            setTimeout(() => b.remove(), 15000);
         }
 
         function toggleMusic() {
@@ -476,14 +606,35 @@
         window.addEventListener("scroll", reveal);
 
         const weddingDate = new Date("Nov 7, 2026 17:30:00").getTime();
+        const rsvpDeadline = new Date("Oct 10, 2026 23:59:59").getTime();
+
         setInterval(() => {
             const now = new Date().getTime();
+            
+            // Contador Boda
             const distance = weddingDate - now;
             if (distance > 0) {
-                document.getElementById("days").innerText = Math.floor(distance / (86400000));
+                document.getElementById("days").innerText = Math.floor(distance / 86400000);
                 document.getElementById("hours").innerText = Math.floor((distance % 86400000) / 3600000);
                 document.getElementById("minutes").innerText = Math.floor((distance % 3600000) / 60000);
                 document.getElementById("seconds").innerText = Math.floor((distance % 60000) / 1000);
+            }
+
+            // Contador Plazo RSVP
+            const rsvpDistance = rsvpDeadline - now;
+            if (rsvpDistance > 0) {
+                const rsvpDaysEl = document.getElementById("rsvp-days");
+                if (rsvpDaysEl) {
+                    rsvpDaysEl.innerText = Math.floor(rsvpDistance / 86400000);
+                    document.getElementById("rsvp-hours").innerText = Math.floor((rsvpDistance % 86400000) / 3600000);
+                    document.getElementById("rsvp-minutes").innerText = Math.floor((rsvpDistance % 3600000) / 60000);
+                    document.getElementById("rsvp-seconds").innerText = Math.floor((rsvpDistance % 60000) / 1000);
+                }
+            } else {
+                const rsvpBox = document.getElementById("rsvp-countdown");
+                if (rsvpBox) {
+                    rsvpBox.innerHTML = "<p class='text-xs font-bold text-red-500 uppercase tracking-widest'>Plazo de confirmación finalizado</p>";
+                }
             }
         }, 1000);
     </script>
