@@ -27,7 +27,7 @@
         .font-serif { font-family: 'Cormorant Garamond', serif; }
         .font-script { font-family: 'Great Vibes', cursive; }
 
-        /* --- SOBRE (ESTILO BOTÁNICO Y AZUL POLVO) --- */
+        /* --- SOBRE (ESTILO BOTÁNICO Y AZUL POLVO REALISTA) --- */
         #invitation-starter {
             position: fixed;
             inset: 0;
@@ -84,11 +84,33 @@
 
         .envelope-container {
             position: relative;
-            width: 290px;
-            height: 180px;
+            width: 300px;
+            height: 190px;
             cursor: pointer;
-            margin: 20px 0 10px;
-            perspective: 800px;
+            margin: 15px 0 10px;
+            perspective: 1000px;
+            filter: drop-shadow(0 15px 25px rgba(88, 120, 139, 0.25));
+        }
+
+        .envelope-pocket-back {
+            position: absolute;
+            inset: 0;
+            background: #5d7e93;
+            border-radius: 6px;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .envelope-liner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 130px;
+            background: #ffffff;
+            background-image: radial-gradient(circle at 50% 30%, #e8f2f8 0%, #d3e4f0 100%);
+            opacity: 0.95;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
         }
 
         .envelope-base {
@@ -96,18 +118,9 @@
             bottom: 0;
             width: 100%;
             height: 100%;
-            background-color: #7293a7;
-            border-radius: 4px;
-            box-shadow: 0 12px 25px rgba(114, 147, 167, 0.3);
+            border-radius: 6px;
             z-index: 2;
-            overflow: hidden;
-        }
-
-        .envelope-base::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
         }
 
         .envelope-side-left {
@@ -116,10 +129,11 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 145px solid #638498;
-            border-top: 90px solid transparent;
-            border-bottom: 90px solid transparent;
+            border-left: 150px solid #628398;
+            border-top: 95px solid transparent;
+            border-bottom: 95px solid transparent;
             z-index: 3;
+            filter: drop-shadow(2px 0 3px rgba(0,0,0,0.08));
         }
 
         .envelope-side-right {
@@ -128,10 +142,11 @@
             right: 0;
             width: 0;
             height: 0;
-            border-right: 145px solid #638498;
-            border-top: 90px solid transparent;
-            border-bottom: 90px solid transparent;
+            border-right: 150px solid #5d7e93;
+            border-top: 95px solid transparent;
+            border-bottom: 95px solid transparent;
             z-index: 3;
+            filter: drop-shadow(-2px 0 3px rgba(0,0,0,0.08));
         }
 
         .envelope-bottom {
@@ -140,10 +155,11 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 145px solid transparent;
-            border-right: 145px solid transparent;
-            border-bottom: 100px solid #58788b;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 105px solid #527286;
             z-index: 3;
+            filter: drop-shadow(0 -3px 5px rgba(0,0,0,0.12));
         }
 
         .envelope-flap {
@@ -152,21 +168,81 @@
             left: 0;
             width: 0;
             height: 0;
-            border-left: 145px solid transparent;
-            border-right: 145px solid transparent;
-            border-top: 100px solid #7c9eb3;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 108px solid #7395aa;
             z-index: 5;
             transform-origin: top;
-            transition: transform 0.8s ease;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+        }
+
+        /* Estampilla Postal Realista */
+        .postage-stamp {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 42px;
+            height: 50px;
+            background: #fdfbf7;
+            border: 2px dashed #d4af37;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.18);
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            transform: rotate(-2deg);
+            pointer-events: none;
+        }
+
+        .postmark {
+            position: absolute;
+            top: 6px;
+            right: 36px;
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(40, 60, 80, 0.4);
+            border-radius: 50%;
+            z-index: 4;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: rotate(-12deg);
+            opacity: 0.75;
+        }
+
+        .postmark-text {
+            font-size: 5.5px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: rgba(30, 50, 70, 0.8);
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .postmark-lines {
+            position: absolute;
+            right: -32px;
+            width: 35px;
+            height: 22px;
+            background: repeating-linear-gradient(
+                180deg,
+                transparent,
+                transparent 3px,
+                rgba(30, 50, 70, 0.4) 3px,
+                rgba(30, 50, 70, 0.4) 4px
+            );
         }
 
         .invitation-card-preview {
             position: absolute;
             top: 8px;
-            left: 10px;
-            width: 270px;
-            height: 164px;
+            left: 12px;
+            width: 276px;
+            height: 172px;
             background: #ffffff;
             border-radius: 4px;
             z-index: 1;
@@ -174,9 +250,10 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: transform 1.2s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            border: 1px solid #f0f4f8;
+            transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            border: 1px solid #e2e8f0;
+            background-image: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
         }
 
         .envelope-container.open .envelope-flap { 
@@ -185,36 +262,44 @@
         }
 
         .envelope-container.open .invitation-card-preview { 
-            transform: translateY(-130px); 
+            transform: translateY(-135px); 
             z-index: 4;
         }
 
+        /* Sello de Cera Realista 3D */
         .wax-seal {
             position: absolute;
-            top: 75px;
+            top: 82px;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 52px;
-            height: 52px;
-            background: radial-gradient(circle, #e6c875 0%, #c49a37 70%, #9e7820 100%);
+            width: 56px;
+            height: 56px;
+            background: radial-gradient(circle at 35% 35%, #f3d889 0%, #d4af37 40%, #aa8210 80%, #785a03 100%);
             border-radius: 50%;
             z-index: 6;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #4a380e;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25), inset 0 2px 4px rgba(255,255,255,0.4);
-            border: 1px solid #d4af37;
+            color: #3d2b02;
+            box-shadow: 
+                0 6px 16px rgba(0,0,0,0.35),
+                inset 0 3px 6px rgba(255,255,255,0.6),
+                inset 0 -4px 6px rgba(0,0,0,0.4);
+            border: 2px solid #e6c555;
             transition: opacity 0.5s ease;
         }
 
-        .wax-seal::after {
-            content: 'Y&P';
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: bold;
-            font-size: 15px;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 1px rgba(255,255,255,0.4);
+        .wax-seal-inner {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(80, 55, 5, 0.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.25);
+            background: radial-gradient(circle at 40% 40%, #e0bd4d 0%, #b88e1e 100%);
         }
 
         .envelope-container.open .wax-seal {
@@ -407,19 +492,43 @@
             </svg>
 
             <!-- Encabezado -->
-            <div class="z-10 pt-2">
-                <p class="uppercase tracking-[0.3em] text-[11px] font-semibold text-slate-600 mb-2">NUESTRA BODA</p>
-                <h1 class="font-script text-5xl md:text-6xl text-[#3a5263] my-1 leading-tight">Yeferson & Paula</h1>
-                <p class="text-[11px] tracking-[0.25em] text-slate-500 font-medium uppercase mt-2">07 - NOVIEMBRE - 2026</p>
+            <div class="z-10 pt-4 pb-1 text-center">
+                <p class="text-[11px] uppercase tracking-[0.3em] font-semibold text-slate-500 mb-2">Mensaje Especial</p>
+                <h1 class="font-script text-4xl md:text-5xl text-[#3a5263] my-1 leading-tight">Tenemos algo que contarte...</h1>
             </div>
 
-            <!-- Sobre interactivo estilo Azul Polvo con sello dorado -->
+            <!-- Sobre interactivo estilo Azul Polvo con sello dorado y detalles realistas -->
             <div class="envelope-container z-20" id="main-envelope" onclick="startExperience()">
+                <div class="envelope-pocket-back">
+                    <div class="envelope-liner"></div>
+                </div>
                 <div class="envelope-flap"></div>
                 <div class="envelope-side-left"></div>
                 <div class="envelope-side-right"></div>
                 <div class="envelope-bottom"></div>
-                <div class="wax-seal"></div>
+                
+                <!-- Detalle de Estampilla Postal Realista -->
+                <div class="postage-stamp">
+                    <svg class="w-5 h-5 text-amber-700 opacity-80" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span class="text-[7px] font-semibold text-amber-900 uppercase tracking-tighter mt-0.5">Amor</span>
+                </div>
+
+                <!-- Sello de Matasellos Postal -->
+                <div class="postmark">
+                    <span class="postmark-text">07.11.2026<br>BODA</span>
+                    <div class="postmark-lines"></div>
+                </div>
+
+                <!-- Sello de Cera Realista -->
+                <div class="wax-seal">
+                    <div class="wax-seal-inner">
+                        <span class="font-serif font-bold text-[13px] tracking-widest text-[#423106]">Y&P</span>
+                    </div>
+                </div>
+
+                <!-- Tarjeta de Invitación Asomándose -->
                 <div class="invitation-card-preview text-center px-4">
                     <p class="font-script text-2xl text-[#4b6a7d] mb-1">Yeferson & Paula</p>
                     <p class="text-[9px] uppercase tracking-widest text-slate-400">07.11.2026</p>
